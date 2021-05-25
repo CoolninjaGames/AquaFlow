@@ -36,7 +36,8 @@ Op Codes:
  
  
 Values:
- char - a character (stored as a it's ASCII code). This is the only value. This value is interpreted differently depending on the op code. 
+ char - a character (stored as a it's ASCII code).
+ Number - just a number.
  negative number - Created when the ~ code is used. This value can only be used in arithmetic and flow movement opperations, any other will throw an error.
  
 Dir Rule (Current Dir, New Dir 1 | New Dir 2):
