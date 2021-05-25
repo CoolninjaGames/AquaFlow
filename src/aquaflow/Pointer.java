@@ -1,0 +1,302 @@
+package aquaflow;
+
+import java.util.Scanner;
+import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author Ben
+ */
+public class Pointer extends Thread {
+
+    public int x, y;
+    public int prevX, prevY;
+    public Direction dir;
+    public Flow currentFlow;
+    public int flowIndex;
+
+    public boolean printPos = false;
+
+    public Stack<Integer> stack;
+
+    public Pointer(int x, int y, int flowIndex) {
+        this.x = x;
+        this.y = y;
+        this.flowIndex = flowIndex;
+        this.currentFlow = AquaFlow.getFlow(flowIndex);
+        dir = Direction.Right;
+        stack = new Stack<>();
+    }
+
+    @Override
+    public void run() {
+        int a = 0;
+        int b = 0;
+        char c = ' ';
+        String s = "";
+        int i = 0;
+        Pointer p;
+        Scanner scan = new Scanner(System.in);
+        while (!this.isInterrupted()) {
+            if (printPos == true) {
+                Console.printPos(this.getName(), currentFlow, stack, x, y);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            char code = currentFlow.grid[y][x];
+            switch (code) {
+                case ' ':
+                    moveFoward();
+                    break;
+                case 'S':
+                    moveFoward();
+                    break;
+                case 'E':
+                    this.interrupt();
+                    break;
+                case 'Q':
+                    System.exit(0);
+                    break;
+                case 'T':
+                    p = new Pointer(this.x, this.y, this.flowIndex);
+                    p.dir = dirRule(this.dir, false);
+                    p.moveFoward();
+                    p.start();
+                    moveFoward();
+                    break;
+                case 't':
+                    p = new Pointer(this.x, this.y, this.flowIndex);
+                    p.dir = dirRule(this.dir, true);
+                    p.moveFoward();
+                    p.start();
+                    moveFoward();
+                    break;
+                case '=':
+                    moveFoward();
+                    break;
+                case '|':
+                    moveFoward();
+                    break;
+                case '>':
+                    this.dir = Direction.Right;
+                    moveFoward();
+                    break;
+                case '<':
+                    this.dir = Direction.Left;
+                    moveFoward();
+                    break;
+                case 'v':
+                    this.dir = Direction.Down;
+                    moveFoward();
+                    break;
+                case '^':
+                    this.dir = Direction.Up;
+                    moveFoward();
+                    break;
+                case '(':
+                    moveFoward();
+                    while (currentFlow.grid[y][x] != ')') {
+                        stack.push((int) currentFlow.grid[y][x]);
+                        moveFoward();
+                    }
+                    moveFoward();
+                    break;
+                case '#':
+                    s = "";
+                    moveFoward();
+                    while (currentFlow.grid[y][x] != '#') {
+                        s = s + currentFlow.grid[y][x];
+                        moveFoward();
+                    }
+                    a = Integer.parseInt(s);
+                    stack.push(a);
+                    moveFoward();
+                    break;
+                case 'p':
+                    stack.pop();
+                    moveFoward();
+                    break;
+                case '+':
+                    a = stack.pop();
+                    b = stack.pop();
+                    stack.push(a + b);
+                    moveFoward();
+                    break;
+                case '-':
+                    a = stack.pop();
+                    b = stack.pop();
+                    stack.push(a - b);
+                    moveFoward();
+                    break;
+                case '*':
+                    a = stack.pop();
+                    b = stack.pop();
+                    stack.push(a * b);
+                    moveFoward();
+                    break;
+                case 'd':
+                    a = stack.pop();
+                    b = stack.pop();
+                    stack.push(a / b);
+                    moveFoward();
+                    break;
+                case '%':
+                    a = stack.pop();
+                    b = stack.pop();
+                    stack.push(a % b);
+                    moveFoward();
+                    break;
+                case 'I':
+                    System.out.print("?: ");
+                    s = scan.nextLine();
+                    try {
+                        if (s.length() == 1) {
+                            i = Integer.parseInt(s.charAt(0) + "");
+                            stack.push(i);
+                        } else {
+                            for (i = 0; i < s.length() - 1; i++) {
+                                i = Integer.parseInt(s.charAt(i) + "");
+                                stack.push(i);
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        c = s.charAt(0);
+                        stack.push((int) c);
+                    }
+                    moveFoward();
+                    break;
+                case 'O':
+                    a = stack.pop();
+                    c = (char) (int) a;
+                    System.out.print(c);
+                    moveFoward();
+                    break;
+                case 'o':
+                    a = stack.pop();
+                    System.out.print(a);
+                    moveFoward();
+                    break;
+                case '\'':
+                    currentFlow = AquaFlow.getFlow(++flowIndex);
+                    dir = Direction.Left;
+                    break;
+                case '\"':
+                    int moveCount = stack.pop();
+                    currentFlow = AquaFlow.getFlow(flowIndex += moveCount);
+                    dir = Direction.Left;
+                    break;
+                case '~':
+                    int negative = stack.pop();
+                    stack.push(-negative);
+                    moveFoward();
+                    break;
+                case 'C':
+                    if (stack.peek() > 0) {
+                        this.dir = dirRule(this.dir, false);
+                    } else {
+                        this.dir = dirRule(this.dir, true);
+                    }
+                    moveFoward();
+                    break;
+                case 'c':
+                    if (stack.peek() > 0) {
+                        this.dir = dirRule(this.dir, true);
+                    } else {
+                        this.dir = dirRule(this.dir, false);
+                    }
+                    moveFoward();
+                    break;
+                case '/':
+                    if (this.dir == Direction.Right) {
+                        this.dir = Direction.Up;
+                    } else if (this.dir == Direction.Left) {
+                        this.dir = Direction.Left;
+                    } else if (this.dir == Direction.Down) {
+                        this.dir = Direction.Left;
+                    } else if (this.dir == Direction.Up) {
+                        this.dir = Direction.Right;
+                    }
+                    moveFoward();
+                    break;
+                case '\\':
+                    if (this.dir == Direction.Left) {
+                        this.dir = Direction.Up;
+                    } else if (this.dir == Direction.Right) {
+                        this.dir = Direction.Down;
+                    } else if (this.dir == Direction.Down) {
+                        this.dir = Direction.Right;
+                    } else if (this.dir == Direction.Up) {
+                        this.dir = Direction.Left;
+                    }
+                    moveFoward();
+                    break;
+                case '@':
+                    a = stack.pop();
+                    b = stack.pop();
+                    c = (char) (int) stack.pop();
+                    AquaFlow.setGrid(AquaFlow.getFlow(flowIndex), a, b, c);
+                    moveFoward();
+                    break;
+                default: {
+                    try {
+                        throw new InvalidPointerSpace();
+                    } catch (InvalidPointerSpace ex) {
+                        Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+        }
+        scan.close();
+    }
+
+    public static synchronized Direction dirRule(Direction dir, boolean isRule2) {
+        if (!isRule2) {
+            switch (dir) {
+                case Left:
+                    return Direction.Down;
+                case Right:
+                    return Direction.Down;
+                case Up:
+                    return Direction.Left;
+                case Down:
+                    return Direction.Left;
+            }
+        } else {
+            switch (dir) {
+                case Left:
+                    return Direction.Up;
+                case Right:
+                    return Direction.Up;
+                case Up:
+                    return Direction.Right;
+                case Down:
+                    return Direction.Right;
+            }
+        }
+        return dir;
+    }
+
+    public void moveFoward() {
+        switch (dir) {
+            case Left:
+                x--;
+                break;
+            case Right:
+                x++;
+                break;
+            case Up:
+                y--;
+                break;
+            case Down:
+                y++;
+                break;
+        }
+    }
+
+}
