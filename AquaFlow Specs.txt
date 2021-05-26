@@ -54,6 +54,6 @@ Flow Stack:
  
 Errors:
  InvalidFlowIndex - Occurs when " is used and the flow the pointer is trying to go to doesn't exist, because the pointer's current stack value is too high, or low.
- NegativeValue - Occurs when a code that doesn't support a negative value gets a negative value.
- CurrentCrash - Occurs when two pointers try and execute the same instruction at the same time.
+ (currently unused) NegativeValue - Occurs when a code that doesn't support a negative value gets a negative value.
+ (currently unused) CurrentCrash - Occurs when two pointers try and execute the same instruction at the same time.
  InvalidPointerSpace - Occurs when a pointer is on a space that doesn't have a valid code

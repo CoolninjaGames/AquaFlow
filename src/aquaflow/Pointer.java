@@ -182,13 +182,33 @@ public class Pointer extends Thread {
                     moveFoward();
                     break;
                 case '\'':
-                    currentFlow = AquaFlow.getFlow(++flowIndex);
-                    dir = Direction.Left;
+                    Console.doNothing(); //this exist purely so my IDE will format this try-catch correctly.
+                    try {
+                        currentFlow = AquaFlow.getFlow(++flowIndex);
+                        dir = Direction.Right;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        try {
+                            throw new InvalidFlowIndex();
+                        } catch (InvalidFlowIndex ex) {
+                            Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
+                            this.interrupt();
+                        }
+                    }
                     break;
                 case '\"':
                     int moveCount = stack.pop();
-                    currentFlow = AquaFlow.getFlow(flowIndex += moveCount);
-                    dir = Direction.Left;
+                    try {
+                        flowIndex += moveCount;
+                        currentFlow = AquaFlow.getFlow(flowIndex);
+                        dir = Direction.Right;
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        try {
+                            throw new InvalidFlowIndex();
+                        } catch (InvalidFlowIndex ex) {
+                            Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
+                            this.interrupt();
+                        }
+                    }
                     break;
                 case '~':
                     int negative = stack.pop();
@@ -247,6 +267,7 @@ public class Pointer extends Thread {
                         throw new InvalidPointerSpace();
                     } catch (InvalidPointerSpace ex) {
                         Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
+                        this.interrupt();
                     }
                 }
 

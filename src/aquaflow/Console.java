@@ -26,4 +26,8 @@ public class Console {
         }
     }
 
+    public static void doNothing() {
+
+    }
+
 }
