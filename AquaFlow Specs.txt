@@ -13,8 +13,8 @@ Op Codes:
  > - changes the pointer's current direction to right
 *v - changes the pointer's current direction to down
  ^ - changes the pointer's current direction to up
-*( - stores the next code(which should be a value) into the thread's stack as a number representing a character, this will occur until a matching ) is found.
-*# - stores the next code(which should be a value) into the thread's stack as a number, this will occur until a matching # is found
+ ( - stores the next code(which should be a value) into the thread's stack as a number representing a character, this will occur until a matching ) is found.
+ # - stores the next code(which should be a value) into the thread's stack as a number, this will occur until a matching # is found
 *p - pops the top value from the thread's stack (and gets rid of it)
  + - adds the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
  - - subtracts the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
