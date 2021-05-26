@@ -21,7 +21,7 @@ Op Codes:
  * - multply the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
 *d - divide the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
  % - moduluses the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
-*I - gets input from console (only one character at a time) and pushes it to the pointer's stack
+*I - gets input from console and pushes it to the pointer's stack
 *O - prints the top value from the thread's stack to the console (as a character)
 *o - prints the top value from the thread's stack to the console (as a number)
  ' - Goes one flow down in the flow stack
@@ -36,7 +36,8 @@ Op Codes:
  
  
 Values:
- char - a character (stored as a it's ASCII code). This is the only value. This value is interpreted differently depending on the op code. 
+ char - a character (stored as a it's ASCII code).
+ Number - just a number.
  negative number - Created when the ~ code is used. This value can only be used in arithmetic and flow movement opperations, any other will throw an error.
  
 Dir Rule (Current Dir, New Dir 1 | New Dir 2):
