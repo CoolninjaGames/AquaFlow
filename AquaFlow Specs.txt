@@ -5,8 +5,8 @@ Op Codes:
 *S - Start
 *E - End
 *Q - Ends all flows, regardless of any pointer's current state
-*T - new Thread/Pointer (runs the code in the next space, following the current pointers's direction, the current pointer's direction will be set to *dir rule*)
-*t - new Thread/Pointer (runs the code in the next space, following the current pointers's direction, the current pointer's direction will be set to *dir rule 2*)
+*T - new Thread/Pointer (runs the code in the next space, it's direction will be set to *dir rule*)
+*t - new Thread/Pointer (runs the code in the next space, it's direction will be set to *dir rule 2*)
  = - moves pointer horizotally
  | - moves pointer vertically
  < - changes the pointer's current direction to left
