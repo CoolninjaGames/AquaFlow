@@ -100,10 +100,15 @@ public class Pointer extends Thread {
                     break;
                 case '(':
                     moveFoward();
+                    s = "";
                     while (currentFlow.grid[y][x] != ')') {
-                        stack.push((int) currentFlow.grid[y][x]);
+                        s += currentFlow.grid[y][x];
                         moveFoward();
                     }
+                    for (i = 1; i < s.length(); i++) {
+                        stack.push((int) s.charAt(s.length() - i));
+                    }
+                    stack.push((int) s.charAt(0));
                     moveFoward();
                     break;
                 case '#':
@@ -155,18 +160,16 @@ public class Pointer extends Thread {
                     System.out.print("?: ");
                     s = scan.nextLine();
                     try {
-                        if (s.length() == 1) {
-                            i = Integer.parseInt(s.charAt(0) + "");
-                            stack.push(i);
-                        } else {
-                            for (i = 0; i < s.length() - 1; i++) {
-                                i = Integer.parseInt(s.charAt(i) + "");
-                                stack.push(i);
-                            }
-                        }
+                        stack.push(Integer.parseInt(s));
                     } catch (NumberFormatException e) {
-                        c = s.charAt(0);
-                        stack.push((int) c);
+                        if (s.length() == 1) {
+                            stack.push((int) s.charAt(0));
+                        } else {
+                            for (i = 1; i < s.length(); i++) {
+                                stack.push((int) s.charAt(s.length() - i));
+                            }
+                            stack.push((int) s.charAt(0));
+                        }
                     }
                     moveFoward();
                     break;
