@@ -29,8 +29,8 @@ Op Codes:
  ~ - Makes the pointer's top stack value negative
 *C - If the pointer's top stack value is positive the pointer will go to *dir rule*, else *dir rule 2* (doesn't pop stack)
 *c - If the pointer's top stack value is positive the pointer will go to *dir rule 2*, else *dir rule* (doesn't pop stack)
- \ - mirror (Right <-> Down, Left <-> Up)
- / - mirror (Right <-> Up, Left <-> Down)
+ \ - flow changer (Right <-> Down, Left <-> Up)
+ / - flow changer (Right <-> Up, Left <-> Down)
  @ replaces a character on the flow (first value on stack = x, second = y, third = character)
 
  
