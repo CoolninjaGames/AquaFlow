@@ -33,6 +33,8 @@ Op Codes:
  \ - flow changer (Right <-> Down, Left <-> Up)
  / - flow changer (Right <-> Up, Left <-> Down)
  @ replaces a character on the flow (first value on stack = x, second = y, third = character)
+ & - pushes a random number between 0-100 to the stack
+ ? - moves the pointer in a random direction
 
  
  
