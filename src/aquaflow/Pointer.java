@@ -275,6 +275,12 @@ public class Pointer extends Thread {
                     AquaFlow.setGrid(AquaFlow.getFlow(flowIndex), a, b, c);
                     moveFoward();
                     break;
+                case '&':
+                    stack.push((int) (Math.random() * (100 - 1 + 1) + 1));
+                    break;
+                case '?':
+                    this.dir = Direction.random();
+                    break;
                 default: {
                     try {
                         throw new InvalidPointerSpace();
