@@ -30,18 +30,22 @@ public class AquaFlow {
         }
         for (int i = 0; i < load.size(); i++) {
             BufferedReader br = new BufferedReader(new FileReader(load.get(i)));
-
-            char[][] temp = new char[Integer.parseInt(br.readLine())][Integer.parseInt(br.readLine())];
-            for (int y = 0; y < temp.length; y++) {
-                String line = br.readLine();
-                if (line == null) {
-                    break;
+            ArrayList<ArrayList<Character>> t = new ArrayList<ArrayList<Character>>();
+            String line = br.readLine();
+            int index = 0;
+            while (line != null) {
+                t.add(new ArrayList<Character>());
+                for (int x = 0; x < line.length(); x++) {
+                    t.get(index).add(line.charAt(x));
                 }
-                for (int x = 0; x < temp[y].length; x++) {
-                    setGrid(temp, x, y, line.charAt(x));
-                    //System.out.print(readGrid(temp, x, y));
+                index++;
+                line = br.readLine();
+            }
+            char[][] temp = new char[t.size()][t.get(0).size()];
+            for (int y = 0; y < t.size(); y++) {
+                for (int x = 0; x < t.get(y).size(); x++) {
+                    setGrid(temp, x, y, t.get(y).get(x));
                 }
-                //System.out.print('\n');
             }
             flows.add(new Flow(temp));
             br.close();
