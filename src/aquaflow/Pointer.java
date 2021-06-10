@@ -17,6 +17,7 @@ public class Pointer extends Thread {
     public Flow currentFlow;
     public int flowIndex;
 
+    //debugging purposes
     public boolean printPos = false;
 
     public Stack<Integer> stack;
@@ -43,7 +44,7 @@ public class Pointer extends Thread {
             if (printPos == true) {
                 Console.printPos(this.getName(), currentFlow, stack, x, y);
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(500);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -101,9 +102,14 @@ public class Pointer extends Thread {
                 case '(':
                     moveFoward();
                     s = "";
-                    while (currentFlow.grid[y][x] != ')') {
-                        s += currentFlow.grid[y][x];
+                    try {
+                        while (currentFlow.grid[y][x] != ')') {
+                            s += currentFlow.grid[y][x];
+                            moveFoward();
+                        }
+                    } catch (Exception e) {
                         moveFoward();
+                        break;
                     }
                     for (i = 1; i < s.length(); i++) {
                         stack.push((int) s.charAt(s.length() - i));
@@ -114,9 +120,13 @@ public class Pointer extends Thread {
                 case '#':
                     s = "";
                     moveFoward();
-                    while (currentFlow.grid[y][x] != '#') {
-                        s = s + currentFlow.grid[y][x];
-                        moveFoward();
+                    try {
+                        while (currentFlow.grid[y][x] != '#') {
+                            s = s + currentFlow.grid[y][x];
+                            moveFoward();
+                        }
+                    } catch (Exception e) {
+                        break;
                     }
                     a = Integer.parseInt(s);
                     stack.push(a);
@@ -185,7 +195,7 @@ public class Pointer extends Thread {
                     moveFoward();
                     break;
                 case '\'':
-                    Console.doNothing(); //this exist purely so my IDE will format this try-catch correctly.
+                    Console.doNothing(); //this exists purely so my IDE will format this try-catch correctly.
                     try {
                         currentFlow = AquaFlow.getFlow(++flowIndex);
                         dir = Direction.Right;
@@ -273,7 +283,6 @@ public class Pointer extends Thread {
                         this.interrupt();
                     }
                 }
-
             }
         }
         scan.close();
