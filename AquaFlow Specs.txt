@@ -22,7 +22,7 @@ Op Codes:
 *d - divide the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
  % - moduluses the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
 *I - gets input from console and pushes it to the pointer's stack
-*O - prints the top value from the thread's stack to the console (as a character)
+*O - prints the top value from the thread's stack to the console (as a character) 
 *o - prints the top value from the thread's stack to the console (as a number)
  ' - Goes one flow down in the flow stack
  " - Goes a number of flows down in the flow stack, the number being the top most value in the pointer's stack
