@@ -15,6 +15,7 @@ Op Codes:
  ^ - changes the pointer's current direction to up
  ( - stores the next code(which should be a value) into the thread's stack as a number representing a character, this will occur until a matching ) is found.
  # - stores the next code(which should be a value) into the thread's stack as a number, this will occur until a matching # is found
+ note that both the ( and # should have the pointer going in the right (relative to the string or number) direction, so don't have the point flow down on top of the ending one for example. This will cause an error (ArrayIndexOutOfBounds). You may fix this in your own interpreter if you wish (the default one won't fix this).
 *p - pops the top value from the thread's stack (and gets rid of it)
  + - adds the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
  - - subtracts the top value from the thread's stack to the next one in the stack (and pushes it onto the stack)
