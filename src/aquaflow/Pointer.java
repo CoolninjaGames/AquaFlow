@@ -20,6 +20,8 @@ public class Pointer extends Thread {
     //debugging purposes
     public boolean printPos = false;
 
+    public long waitTime = 0;
+
     public Stack<Integer> stack;
 
     public Pointer(int x, int y, int flowIndex) {
@@ -40,14 +42,12 @@ public class Pointer extends Thread {
         int i = 0;
         Pointer p;
         Scanner scan = new Scanner(System.in);
+        if (printPos == true) {
+            waitTime = 500;
+        }
         while (!this.isInterrupted()) {
             if (printPos == true) {
                 Console.printPos(this.getName(), currentFlow, stack, x, y);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
             char code = currentFlow.grid[y][x];
             switch (code) {
@@ -66,6 +66,7 @@ public class Pointer extends Thread {
                 case 'T':
                     p = new Pointer(this.x, this.y, this.flowIndex);
                     p.dir = dirRule(this.dir, false);
+                    p.printPos = this.printPos;
                     p.moveFoward();
                     p.start();
                     moveFoward();
@@ -73,6 +74,7 @@ public class Pointer extends Thread {
                 case 't':
                     p = new Pointer(this.x, this.y, this.flowIndex);
                     p.dir = dirRule(this.dir, true);
+                    p.printPos = this.printPos;
                     p.moveFoward();
                     p.start();
                     moveFoward();
@@ -281,6 +283,9 @@ public class Pointer extends Thread {
                 case '?':
                     this.dir = Direction.random();
                     break;
+                case '$':
+                    waitTime = stack.pop();
+                    break;
                 default: {
                     try {
                         throw new InvalidPointerSpace();
@@ -289,6 +294,11 @@ public class Pointer extends Thread {
                         this.interrupt();
                     }
                 }
+            }
+            try {
+                Thread.sleep(waitTime);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         scan.close();
