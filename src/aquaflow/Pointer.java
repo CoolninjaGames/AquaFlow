@@ -51,9 +51,6 @@ public class Pointer extends Thread {
             }
             char code = currentFlow.grid[y][x];
             switch (code) {
-                case ' ':
-                    moveFoward();
-                    break;
                 case 'S':
                     moveFoward();
                     break;
@@ -279,12 +276,20 @@ public class Pointer extends Thread {
                     break;
                 case '&':
                     stack.push((int) (Math.random() * (100 - 1 + 1) + 1));
+                    moveFoward();
                     break;
                 case '?':
                     this.dir = Direction.random();
+                    moveFoward();
                     break;
                 case '$':
                     waitTime = stack.pop();
+                    moveFoward();
+                    break;
+                case '!':
+                    a = stack.peek();
+                    stack.push(a);
+                    moveFoward();
                     break;
                 default: {
                     try {
