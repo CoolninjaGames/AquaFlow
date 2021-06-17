@@ -1,4 +1,4 @@
-package aquaflow;
+package jabc;
 
 import java.util.Scanner;
 import java.util.Stack;
@@ -28,7 +28,7 @@ public class Pointer extends Thread {
         this.x = x;
         this.y = y;
         this.flowIndex = flowIndex;
-        this.currentFlow = AquaFlow.getFlow(flowIndex);
+        this.currentFlow = JABC.getFlow(flowIndex);
         dir = Direction.Right;
         stack = new Stack<>();
     }
@@ -196,7 +196,7 @@ public class Pointer extends Thread {
                 case '\'':
                     Console.doNothing(); //this exists purely so my IDE will format this try-catch correctly.
                     try {
-                        currentFlow = AquaFlow.getFlow(++flowIndex);
+                        currentFlow = JABC.getFlow(++flowIndex);
                         dir = Direction.Right;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         try {
@@ -211,7 +211,7 @@ public class Pointer extends Thread {
                     int moveCount = stack.pop();
                     try {
                         flowIndex += moveCount;
-                        currentFlow = AquaFlow.getFlow(flowIndex);
+                        currentFlow = JABC.getFlow(flowIndex);
                         dir = Direction.Right;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         try {
@@ -271,7 +271,7 @@ public class Pointer extends Thread {
                     a = stack.pop();
                     b = stack.pop();
                     c = (char) (int) stack.pop();
-                    AquaFlow.setGrid(AquaFlow.getFlow(flowIndex), a, b, c);
+                    JABC.setGrid(JABC.getFlow(flowIndex), a, b, c);
                     moveFoward();
                     break;
                 case '&':

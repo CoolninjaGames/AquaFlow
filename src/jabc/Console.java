@@ -1,6 +1,6 @@
-package aquaflow;
+package jabc;
 
-import static aquaflow.AquaFlow.readGrid;
+import static jabc.JABC.readGrid;
 import java.util.Stack;
 
 /**
