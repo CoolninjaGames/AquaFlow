@@ -9,14 +9,14 @@ import java.util.Stack;
  */
 public class Console {
 
-    public static synchronized void printPos(String threadname, Flow flow, Stack stack, int xPos, int yPos) {
+    public static synchronized void printPos(String threadname, Abstract ab, Stack stack, int xPos, int yPos) {
         System.out.println(threadname);
-        for (int y = 0; y < flow.grid.length; y++) {
-            for (int x = 0; x < flow.grid[y].length; x++) {
+        for (int y = 0; y < ab.grid.length; y++) {
+            for (int x = 0; x < ab.grid[y].length; x++) {
                 if (x == xPos && y == yPos) {
                     System.out.print('}');
                 } else {
-                    System.out.print(readGrid(flow.grid, x, y));
+                    System.out.print(readGrid(ab.grid, x, y));
                 }
             }
             System.out.print('\n');

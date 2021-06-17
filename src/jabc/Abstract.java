@@ -4,13 +4,13 @@ package jabc;
  *
  * @author Ben
  */
-public class Flow {
+public class Abstract {
 
     public char[][] grid;
     public int lengthX;
     public int lengthY;
 
-    public Flow(char[][] grid) {
+    public Abstract(char[][] grid) {
         this.grid = grid;
         this.lengthY = grid.length;
         this.lengthX = grid[0].length;

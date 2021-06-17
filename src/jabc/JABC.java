@@ -13,10 +13,10 @@ import java.util.ArrayList;
  */
 public class JABC {
 
-    static ArrayList<Flow> flows = new ArrayList<>();
+    static ArrayList<Abstract> abstracts = new ArrayList<>();
 
     /**
-     * @param args a list of paths to flows
+     * @param args a list of paths to abstracts
      * @throws java.io.FileNotFoundException
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
@@ -47,10 +47,10 @@ public class JABC {
                     setGrid(temp, x, y, t.get(y).get(x));
                 }
             }
-            flows.add(new Flow(temp));
+            abstracts.add(new Abstract(temp));
             br.close();
         }
-        Flow first = flows.get(0);
+        Abstract first = abstracts.get(0);
         int firstStartX = getStart(first)[0];
         int firstStartY = getStart(first)[1];
         Pointer start = new Pointer(firstStartX, firstStartY, 0);
@@ -58,27 +58,27 @@ public class JABC {
         start.start();
     }
 
-    public static char readGrid(Flow flow, int x, int y) {
-        return readGrid(flow.grid, x, y);
+    public static char readGrid(Abstract ab, int x, int y) {
+        return readGrid(ab.grid, x, y);
     }
 
     public static char readGrid(char[][] grid, int x, int y) {
         return grid[y][x];
     }
 
-    public static void setGrid(Flow flow, int x, int y, char c) {
-        setGrid(flow.grid, x, y, c);
+    public static void setGrid(Abstract ab, int x, int y, char c) {
+        setGrid(ab.grid, x, y, c);
     }
 
     public static void setGrid(char[][] grid, int x, int y, char c) {
         grid[y][x] = c;
     }
 
-    public synchronized static Flow getFlow(int index) {
-        return flows.get(index);
+    public synchronized static Abstract getAbstract(int index) {
+        return abstracts.get(index);
     }
 
-    public static int[] getStart(Flow grid) {
+    public static int[] getStart(Abstract grid) {
         int[] pos = new int[2];
         for (int y = 0; y < grid.lengthY; y++) {
             for (int x = 0; x < grid.lengthX; x++) {

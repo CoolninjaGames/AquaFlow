@@ -14,8 +14,8 @@ public class Pointer extends Thread {
     public int x, y;
     public int prevX, prevY;
     public Direction dir;
-    public Flow currentFlow;
-    public int flowIndex;
+    public Abstract currentAbstracts;
+    public int abstractsIndex;
 
     //debugging purposes
     public boolean printPos = false;
@@ -24,11 +24,11 @@ public class Pointer extends Thread {
 
     public Stack<Integer> stack;
 
-    public Pointer(int x, int y, int flowIndex) {
+    public Pointer(int x, int y, int abstractIndex) {
         this.x = x;
         this.y = y;
-        this.flowIndex = flowIndex;
-        this.currentFlow = JABC.getFlow(flowIndex);
+        this.abstractsIndex = abstractIndex;
+        this.currentAbstracts = JABC.getAbstract(abstractIndex);
         dir = Direction.Right;
         stack = new Stack<>();
     }
@@ -47,9 +47,9 @@ public class Pointer extends Thread {
         }
         while (!this.isInterrupted()) {
             if (printPos == true) {
-                Console.printPos(this.getName(), currentFlow, stack, x, y);
+                Console.printPos(this.getName(), currentAbstracts, stack, x, y);
             }
-            char code = currentFlow.grid[y][x];
+            char code = currentAbstracts.grid[y][x];
             switch (code) {
                 case 'S':
                     moveFoward();
@@ -61,7 +61,7 @@ public class Pointer extends Thread {
                     System.exit(0);
                     break;
                 case 'T':
-                    p = new Pointer(this.x, this.y, this.flowIndex);
+                    p = new Pointer(this.x, this.y, this.abstractsIndex);
                     p.dir = dirRule(this.dir, false);
                     p.printPos = this.printPos;
                     p.moveFoward();
@@ -69,7 +69,7 @@ public class Pointer extends Thread {
                     moveFoward();
                     break;
                 case 't':
-                    p = new Pointer(this.x, this.y, this.flowIndex);
+                    p = new Pointer(this.x, this.y, this.abstractsIndex);
                     p.dir = dirRule(this.dir, true);
                     p.printPos = this.printPos;
                     p.moveFoward();
@@ -102,8 +102,8 @@ public class Pointer extends Thread {
                     moveFoward();
                     s = "";
                     try {
-                        while (currentFlow.grid[y][x] != ')') {
-                            s += currentFlow.grid[y][x];
+                        while (currentAbstracts.grid[y][x] != ')') {
+                            s += currentAbstracts.grid[y][x];
                             moveFoward();
                         }
                     } catch (Exception e) {
@@ -120,8 +120,8 @@ public class Pointer extends Thread {
                     s = "";
                     moveFoward();
                     try {
-                        while (currentFlow.grid[y][x] != '#') {
-                            s = s + currentFlow.grid[y][x];
+                        while (currentAbstracts.grid[y][x] != '#') {
+                            s = s + currentAbstracts.grid[y][x];
                             moveFoward();
                         }
                     } catch (Exception e) {
@@ -196,12 +196,12 @@ public class Pointer extends Thread {
                 case '\'':
                     Console.doNothing(); //this exists purely so my IDE will format this try-catch correctly.
                     try {
-                        currentFlow = JABC.getFlow(++flowIndex);
+                        currentAbstracts = JABC.getAbstract(++abstractsIndex);
                         dir = Direction.Right;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         try {
-                            throw new InvalidFlowIndex();
-                        } catch (InvalidFlowIndex ex) {
+                            throw new InvalidAbstractIndex();
+                        } catch (InvalidAbstractIndex ex) {
                             Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
                             this.interrupt();
                         }
@@ -210,13 +210,13 @@ public class Pointer extends Thread {
                 case '\"':
                     int moveCount = stack.pop();
                     try {
-                        flowIndex += moveCount;
-                        currentFlow = JABC.getFlow(flowIndex);
+                        abstractsIndex += moveCount;
+                        currentAbstracts = JABC.getAbstract(abstractsIndex);
                         dir = Direction.Right;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         try {
-                            throw new InvalidFlowIndex();
-                        } catch (InvalidFlowIndex ex) {
+                            throw new InvalidAbstractIndex();
+                        } catch (InvalidAbstractIndex ex) {
                             Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
                             this.interrupt();
                         }
@@ -271,7 +271,7 @@ public class Pointer extends Thread {
                     a = stack.pop();
                     b = stack.pop();
                     c = (char) (int) stack.pop();
-                    JABC.setGrid(JABC.getFlow(flowIndex), a, b, c);
+                    JABC.setGrid(JABC.getAbstract(abstractsIndex), a, b, c);
                     moveFoward();
                     break;
                 case '&':
