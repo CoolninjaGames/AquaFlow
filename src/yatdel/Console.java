@@ -1,6 +1,6 @@
-package jabc;
+package yatdel;
 
-import static jabc.JABC.readGrid;
+import static yatdel.Yatdel.readGrid;
 import java.util.Stack;
 
 /**

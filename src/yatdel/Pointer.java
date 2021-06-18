@@ -1,4 +1,4 @@
-package jabc;
+package yatdel;
 
 import java.util.Scanner;
 import java.util.Stack;
@@ -28,7 +28,7 @@ public class Pointer extends Thread {
         this.x = x;
         this.y = y;
         this.abstractsIndex = abstractIndex;
-        this.currentAbstracts = JABC.getAbstract(abstractIndex);
+        this.currentAbstracts = Yatdel.getAbstract(abstractIndex);
         dir = Direction.Right;
         stack = new Stack<>();
     }
@@ -196,7 +196,7 @@ public class Pointer extends Thread {
                 case '\'':
                     Console.doNothing(); //this exists purely so my IDE will format this try-catch correctly.
                     try {
-                        currentAbstracts = JABC.getAbstract(++abstractsIndex);
+                        currentAbstracts = Yatdel.getAbstract(++abstractsIndex);
                         dir = Direction.Right;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         try {
@@ -211,7 +211,7 @@ public class Pointer extends Thread {
                     int moveCount = stack.pop();
                     try {
                         abstractsIndex += moveCount;
-                        currentAbstracts = JABC.getAbstract(abstractsIndex);
+                        currentAbstracts = Yatdel.getAbstract(abstractsIndex);
                         dir = Direction.Right;
                     } catch (ArrayIndexOutOfBoundsException e) {
                         try {
@@ -271,7 +271,7 @@ public class Pointer extends Thread {
                     a = stack.pop();
                     b = stack.pop();
                     c = (char) (int) stack.pop();
-                    JABC.setGrid(JABC.getAbstract(abstractsIndex), a, b, c);
+                    Yatdel.setGrid(Yatdel.getAbstract(abstractsIndex), a, b, c);
                     moveFoward();
                     break;
                 case '&':

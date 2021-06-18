@@ -1,4 +1,4 @@
-package jabc;
+package yatdel;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Ben
  */
-public class JABC {
+public class Yatdel {
 
     static ArrayList<Abstract> abstracts = new ArrayList<>();
 
