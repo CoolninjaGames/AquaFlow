@@ -1,3 +1,3 @@
-# JABC
+# YATDEL
 
-To run code, run java -jar PathToJABC.jar "Abstract File". Read the wiki for more infomation.
+To run code, run java -jar PathToYATDEL.jar "Abstract File". Read the wiki for more infomation.
