@@ -54,7 +54,10 @@ public class Yatdel {
         int firstStartX = getStart(first)[0];
         int firstStartY = getStart(first)[1];
         Pointer start = new Pointer(firstStartX, firstStartY, 0);
-        start.printPos = args[1].equalsIgnoreCase("-debug");
+        try {
+            start.printPos = args[1].equalsIgnoreCase("-debug");
+        } catch (Exception e) {
+        }
         start.start();
     }
 

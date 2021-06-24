@@ -1,5 +1,6 @@
 package yatdel;
 
+import java.util.EmptyStackException;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -19,8 +20,6 @@ public class Pointer extends Thread {
 
     //debugging purposes
     public boolean printPos = false;
-
-    public long waitTime = 0;
 
     public Stack<Integer> stack;
 
@@ -42,12 +41,14 @@ public class Pointer extends Thread {
         int i = 0;
         Pointer p;
         Scanner scan = new Scanner(System.in);
-        if (printPos == true) {
-            waitTime = 500;
-        }
         while (!this.isInterrupted()) {
             if (printPos == true) {
                 Console.printPos(this.getName(), currentAbstracts, stack, x, y);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             char code = currentAbstracts.grid[y][x];
             switch (code) {
@@ -228,7 +229,14 @@ public class Pointer extends Thread {
                     moveFoward();
                     break;
                 case 'C':
-                    if (stack.peek() > 0) {
+                    Console.doNothing();
+                    try {
+                        a = stack.peek();
+                    } catch (EmptyStackException e) {
+                        moveFoward();
+                        break;
+                    }
+                    if (a > 0) {
                         this.dir = dirRule(this.dir, false);
                     } else {
                         this.dir = dirRule(this.dir, true);
@@ -236,7 +244,14 @@ public class Pointer extends Thread {
                     moveFoward();
                     break;
                 case 'c':
-                    if (stack.peek() > 0) {
+                    Console.doNothing();
+                    try {
+                        a = stack.peek();
+                    } catch (EmptyStackException e) {
+                        moveFoward();
+                        break;
+                    }
+                    if (a > 0) {
                         this.dir = dirRule(this.dir, true);
                     } else {
                         this.dir = dirRule(this.dir, false);
@@ -283,7 +298,12 @@ public class Pointer extends Thread {
                     moveFoward();
                     break;
                 case '$':
-                    waitTime = stack.pop();
+                    Console.doNothing();
+                    try {
+                        Thread.sleep(stack.pop());
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     moveFoward();
                     break;
                 case '!':
@@ -300,11 +320,7 @@ public class Pointer extends Thread {
                     }
                 }
             }
-            try {
-                Thread.sleep(waitTime);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Pointer.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
         }
         scan.close();
     }
